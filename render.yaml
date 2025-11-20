@@ -1,0 +1,48 @@
+# Example render.yaml for a Python web app (Flask/Django) that does face recognition.
+# Adjust branch, build/start commands, and env vars to match your repo.
+services:
+  - type: web
+    name: face-reco-web
+    env: python                # use "docker" if you deploy with a Dockerfile
+    branch: main
+    plan: starter              # change plan if needed (starter, standard, etc.)
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    healthCheckPath: /
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: "__REPLACE_WITH_SECRET__"
+      - key: DATABASE_URL
+        value: "__REPLACE_WITH_DATABASE_URL__"
+      - key: REDIS_URL
+        value: "__REPLACE_WITH_REDIS_URL__"
+
+  # Optional background worker (uncomment / adapt if you have a worker like Celery)
+  #- type: worker
+  #  name: face-reco-worker
+  #  env: python
+  #  branch: main
+  #  plan: starter
+  #  buildCommand: pip install -r requirements.txt
+  #  startCommand: celery -A tasks worker --loglevel=info
+  #  envVars:
+  #    - key: CELERY_BROKER_URL
+  #      value: "__REPLACE_WITH_BROKER_URL__"
+
+# Optional managed Postgres; you can also create the DB from Render dashboard
+databases:
+  - name: face-reco-db
+    engine: postgres
+    version: "14"
+    plan: starter
+
+# Optional cron job example (run periodic tasks)
+#cron_jobs:
+#  - name: face-reco-cleanup
+#    schedule: "0 3 * * *"   # daily at 03:00 UTC
+#    command: python scripts/cleanup.py
+#    env: python
+#    branch: main
