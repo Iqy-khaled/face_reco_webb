@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Attendance System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <div class="container bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <h1 class="text-3xl font-bold text-center mb-6">Face Recognition Attendance System</h1>
+        <div class="tabs flex border-b mb-4">
+            <div class="tab px-4 py-2 cursor-pointer" data-tab="recognition">Recognition</div>
+            <div class="tab px-4 py-2 cursor-pointer" data-tab="attendance">Today's Attendance</div>
+            <div class="tab px-4 py-2 cursor-pointer" data-tab="people">People</div>
+        </div>
+        <div id="recognition" class="tab-content">
+            <div class="video-container mx-auto">
+                <video id="video" width="640" height="480" autoplay class="border border-gray-300 rounded"></video>
+            </div>
+            <div class="form-group flex justify-center flex-wrap gap-2 mb-4">
+                <button onclick="captureImage(true)" class="btn btn-primary">Check In</button>
+                <button onclick="captureImage(true)" class="btn btn-success">Check Out</button>
+                <button onclick="registerPerson(true)" class="btn btn-secondary">Register New Person</button>
+                <button onclick="showFaces(true)" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Registered Faces</button>
+                <button onclick="showImageSizes(true)" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Image Sizes</button>
+                <button onclick="importKnownFaces(true)" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Import Known Faces</button>
+            </div>
+            <div id="result" class="alert text-center text-lg mb-4" style="display:any;"></div>
+            <div id="snap-result" style="display: none;">
+                <img id="result-photo" style="display: none;" class="max-w-xs rounded mb-4">
+                <div id="recognition-info" class="text-center"></div>
+            </div>
+            <div id="faces" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+        </div>
+        <div id="attendance" class="tab-content">
+            <h2 class="text-2xl font-bold mb-4">Today's Attendance</h2>
+            <button onclick="loadAttendanceData(confirm)" class="btn btn-primary mb-4">Refresh Data</button>
+            <div class="table-container">
+                <table id="attendance-table" class="min-w-full bg-white border">
+                    <tr><td>Click "Refresh Data" to load today's attendance records</td></tr>
+                </table>
+            </div>
+        </div>
+        <div id="people" class="tab-content">
+            <h2 class="text-2xl font-bold mb-4">Registered People</h2>
+            <button onclick="showFaces(requestAnimationFrame)" class="btn btn-primary mb-4">Load People</button>
+        </div>
+        <footer class="text-center mt-8">
+            <p>© 2023 Face Recognition Attendance System</p>
+        </footer>
+    </div>
+    <script src="/static/main.js"></script>
+</body>
+</html>
